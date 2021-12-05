@@ -11,7 +11,6 @@ server.on('request', (req, res) => {
   const allowPath = path.join(__dirname, 'files')
   const filepath = path.join(__dirname, 'files', pathname)
   const stream = fs.createReadStream(filepath)
-  console.log(pathname)
 
   switch (req.method) {
     case 'GET':
