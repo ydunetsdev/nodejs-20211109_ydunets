@@ -19,10 +19,12 @@ router.get("/subscribe", async (ctx, next) => {
 
 router.post("/publish", async (ctx, next) => {
   try {
-    for await (const client of clients) {
-      client(ctx.request.body.message);
+    if (ctx.request.body.message) {
+      for await (const client of clients) {
+        client(ctx.request.body.message);
+      }
+      clients = [];
     }
-    clients = [];
     ctx.response.status = 200;
     ctx.response.body = "OK";
   } catch (error) {
