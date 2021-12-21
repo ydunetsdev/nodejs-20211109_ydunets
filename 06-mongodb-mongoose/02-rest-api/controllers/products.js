@@ -11,8 +11,8 @@ module.exports.productsBySubcategory = async function productsBySubcategory(ctx,
 };
 
 module.exports.productList = async function productList(ctx, next) {
-  const productList = await Product.find();
-  ctx.body = {products: productList.map((category) => mapProduct(category))};
+  const products = await Product.find();
+  ctx.body = {products: products.map((category) => mapProduct(category))};
 };
 
 module.exports.productById = async function productById(ctx, next) {
@@ -22,12 +22,10 @@ module.exports.productById = async function productById(ctx, next) {
     if (product) {
       ctx.body = {product: mapProduct(product)};
     } else {
-      ctx.status = 404;
-      ctx.body = {error: '404'};
+      ctx.throw(404, 'Not found');
     }
   } else {
-    ctx.status = 400;
-    ctx.body = {error: 'id invalid'};
+    ctx.throw(400, 'Id is invalid.')
   }
 };
 
